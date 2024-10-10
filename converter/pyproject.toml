@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "converter"
+version = "1.0.0"
+description = ""
+authors = ["dfathree"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+nkf = "^1.0.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
