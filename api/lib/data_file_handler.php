@@ -13,3 +13,5 @@ function error_response($status_code, $message)
 if (!is_dir($dir)) {
     return error_response(404, 'directory not found');
 }
+
+header('Access-Control-Allow-Origin: *');
