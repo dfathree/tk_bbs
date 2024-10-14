@@ -1,23 +1,28 @@
 <script>
-  import Header from './Header.svelte';
-  import '../app.css';
+  import Header from './Header.svelte'
+  import Sidebar from './Sidebar.svelte'
+  import '../app.css'
 </script>
 
 <div class="app">
-  <Header />
+  <Sidebar />
+  <div>
+    <Header />
 
-  <main>
-    <slot />
-  </main>
+    <main>
+      <slot />
+    </main>
 
-  <footer>
-    <p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-  </footer>
+    <footer>
+      <p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+    </footer>
+  </div>
 </div>
 
-<style>
+<style lang="postcss">
   .app {
-    display: flex;
+    grid-template-columns: 300px 3fr;
+    display: grid;
     flex-direction: column;
     min-height: 100vh;
   }
