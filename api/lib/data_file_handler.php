@@ -1,5 +1,5 @@
 <?php
-$dir = '../../dat';
+$dir = '../../../dat';
 
 function error_response($status_code, $message)
 {

@@ -1,5 +1,5 @@
 <?php
-require_once('./data_file_handler.php');
+require_once('../lib/data_file_handler.php');
 
 $thread_array = array();
 

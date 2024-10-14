@@ -26,16 +26,16 @@ $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $sliced_array = array_slice($res_array, ($page - 1) * $per_page, $per_page);
 
 $content_array = array_map(function ($res_id) use ($dir, $thread_id) {
-  $res_lines = file("{$dir}/{$thread_id}/{$res_id}/{$res_id}", FILE_IGNORE_NEW_LINES);
+  $res_lines = file("{$dir}/{$thread_id}/{$res_id}/{$res_id}.txt", FILE_IGNORE_NEW_LINES);
 
   // コメント
   $comment_array = array();
-  $comment_files = glob("{$dir}/{$thread_id}/{$res_id}/[!.]*");
+  $comment_files = glob("{$dir}/{$thread_id}/{$res_id}/*.txt");
   foreach ($comment_files as $comment_file) {
-    if ($comment_file == "{$dir}/{$thread_id}/{$res_id}/file" || $comment_file == "{$dir}/{$thread_id}/{$res_id}/{$res_id}") {
+    if ($comment_file == "{$dir}/{$thread_id}/{$res_id}/file" || $comment_file == "{$dir}/{$thread_id}/{$res_id}/{$res_id}.txt") {
       continue;
     }
-    $comment_id = pathinfo($comment_file)['basename'];
+    $comment_id = pathinfo($comment_file, PATHINFO_FILENAME);
     array_push($comment_array, array(
       'commentId' => $comment_id,
       'content' => file($comment_file, FILE_IGNORE_NEW_LINES)[2],
@@ -58,10 +58,9 @@ $content_array = array_map(function ($res_id) use ($dir, $thread_id) {
 }, $sliced_array);
 
 // 親レスの読み込み
-$parent_res = file("{$dir}/{$thread_id}/{$thread_id}/{$thread_id}", FILE_IGNORE_NEW_LINES);
+$parent_res = file("{$dir}/{$thread_id}/{$thread_id}/{$thread_id}.txt", FILE_IGNORE_NEW_LINES);
 
 header('Content-Type: application/json');
-// print(json_encode(array('reses' => $res_array)));
 print(json_encode(array(
   'total' => count($res_array),
   'page' => $page,
