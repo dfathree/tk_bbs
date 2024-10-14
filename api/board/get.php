@@ -6,8 +6,11 @@ $thread_array = array();
 $directories = glob("{$dir}/[!.]*", GLOB_ONLYDIR);
 
 $thread_array = array_map(function ($directory) {
+  $thread_id = pathinfo($directory)['basename'];
+  $parent_file = file("{$directory}/{$thread_id}/{$thread_id}.txt", FILE_IGNORE_NEW_LINES);
   return array(
-    'threadId' => pathinfo($directory)['basename'],
+    'threadId' => $thread_id,
+    'title' => $parent_file[0],
     'lastModifiedUnixTime' => filemtime($directory)
   );
 }, $directories);
@@ -20,6 +23,7 @@ usort($thread_array, function ($a, $b) {
 $sorted_array = array_map(function ($thread) {
   return array(
     'threadId' => $thread['threadId'],
+    'title' => $thread['title'],
     'lastModified' => date('Y-m-d\TH:i:s+09:00', $thread['lastModifiedUnixTime'])
   );
 }, $thread_array);
