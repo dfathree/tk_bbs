@@ -40,6 +40,7 @@
 
 <style>
   header {
+    margin-right: 6rem;
     display: flex;
     justify-content: space-between;
   }
