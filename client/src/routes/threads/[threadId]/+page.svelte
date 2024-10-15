@@ -71,6 +71,7 @@
 </script>
 
 <div>
+  <div class="text-2xl mb-2">{parent.title}</div>
   <div class="box-container">
     <ParentBox {parent} />
     {#each reses as res}

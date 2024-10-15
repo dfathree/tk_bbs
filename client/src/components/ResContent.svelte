@@ -12,7 +12,14 @@
 <div>
   {#each lines as line}
     {#if urlRegexp.test(line)}
-      <a href="h{line}">{line}</a>
+      <a
+        href={line}
+        referrerpolicy="no-referrer"
+        target="_blank"
+        class="px-0.5 py-0 border border-solid border-red-400 rounded-md"
+      >
+        {line}
+      </a>
     {:else}
       <div>{line}</div>
     {/if}
