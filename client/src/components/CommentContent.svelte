@@ -11,8 +11,8 @@
   $: lines = comment.content.split(urlRegexp).filter(Boolean)
 </script>
 
-<div class="flex items-center">
-  <CaretRightSolid class="ms-2 me-1" />
+<div class="inline-block">
+  <CaretRightSolid class="inline ms-2 me-1" />
   {#each lines as line}
     {#if urlRegexp.test(line)}
       <a
