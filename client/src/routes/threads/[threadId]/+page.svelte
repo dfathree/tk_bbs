@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
+  import { GradientButton } from 'flowbite-svelte'
   import { page as storePage } from '$app/stores'
   import { PUBLIC_API_SERVER } from '$env/static/public'
   import ParentBox from '../../../components/ParentBox/index.svelte'
@@ -71,6 +72,7 @@
 </script>
 
 <div>
+  <div class="text-2xl mb-2">{parent.title}</div>
   <div class="box-container">
     <ParentBox {parent} />
     {#each reses as res}
@@ -79,14 +81,7 @@
   </div>
 
   <footer class="flex justify-end items-center">
-    <button
-      type="button"
-      class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4
-             focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 rounded-lg text-sm px-3
-             py-2 text-center"
-    >
-      レス返信
-    </button>
+    <GradientButton color="blue">返信</GradientButton>
   </footer>
 
   <div id="bottomElement"></div>
