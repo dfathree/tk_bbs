@@ -6,7 +6,7 @@
   import ParentBox from '../../../components/ParentBox/index.svelte'
   import type { Parent } from '../../../components/ParentBox/types'
   import ResBox from '../../../components/ResBox/index.svelte'
-  import type { Res } from '../../../components/ResBox/types'
+  import type { Res, Comment } from '../../../components/ResBox/types'
 
   let threadId = ''
   let total = 0
@@ -38,6 +38,16 @@
     perPage = 10
     parent = { threadId: '', title: '', content: '', createdAt: '' }
     reses = []
+  }
+
+  const handleAddComment = (event: CustomEvent<Comment & { resId: string }>) => {
+    const { resId, commentId, content, createdAt } = event.detail
+    reses = reses.map(res => {
+      if (res.resId === resId) {
+        res.comments.push({ commentId, content, createdAt })
+      }
+      return res
+    })
   }
 
   onMount(() => {
@@ -76,7 +86,7 @@
   <div class="box-container">
     <ParentBox {parent} />
     {#each reses as res}
-      <ResBox {res} />
+      <ResBox {threadId} {res} on:addComment={handleAddComment} />
     {/each}
   </div>
 
