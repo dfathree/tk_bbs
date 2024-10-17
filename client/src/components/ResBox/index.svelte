@@ -1,11 +1,12 @@
 <script lang="ts">
-  import { Button } from 'flowbite-svelte'
   import PulldownMenu from '../PulldownMenu.svelte'
   import ResContent from '../ResContent.svelte'
   import type { Res } from './types'
-  import CommentContent from '../CommentContent.svelte'
+  import CommentContent from '../Comment/CommentContent.svelte'
+  import AddCommentButton from '../Comment/AddCommentButton.svelte'
   import { formatDate } from '$lib/DateFormatter'
 
+  export let threadId: string
   export let res: Res
 </script>
 
@@ -20,7 +21,7 @@
     {#each res.comments as comment}
       <CommentContent {comment} />
     {/each}
-    <Button class="text-sm px-2 py-0.5" color="light">コメント</Button>
+    <AddCommentButton {threadId} resId={res.resId} on:addComment />
   </div>
 </div>
 
