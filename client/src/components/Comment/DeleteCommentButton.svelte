@@ -10,7 +10,7 @@
   const dispatch = createEventDispatcher()
 
   const handleSubmit = async () => {
-    const response = await fetch(`${PUBLIC_API_SERVER}/api/comment/delete.php`, {
+    await fetch(`${PUBLIC_API_SERVER}/api/comment/delete.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

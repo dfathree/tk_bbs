@@ -1,12 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { GradientButton } from 'flowbite-svelte'
   import { page as storePage } from '$app/stores'
   import { PUBLIC_API_SERVER } from '$env/static/public'
-  import ParentBox from '../../../components/ParentBox/index.svelte'
-  import type { Parent } from '../../../components/ParentBox/types'
-  import ResBox from '../../../components/ResBox/index.svelte'
-  import type { Res, Comment } from '../../../components/ResBox/types'
+  import ParentBox from '../../../components/Parent/index.svelte'
+  import type { Parent } from '../../../components/Parent/types'
+  import ResBox from '../../../components/Res/index.svelte'
+  import AddResButton from '../../../components/Res/AddResButton.svelte'
+  import type { Res } from '../../../components/Res/types'
+  import type { Comment } from '../../../components/Comment/types'
 
   let threadId = ''
   let total = 0
@@ -38,6 +39,11 @@
     perPage = 10
     parent = { threadId: '', title: '', content: '', createdAt: '' }
     reses = []
+  }
+
+  const handleAddRes = () => {
+    page = 0
+    fetchReses()
   }
 
   const handleAddComment = (event: CustomEvent<Comment & { resId: string }>) => {
@@ -101,7 +107,7 @@
   </div>
 
   <footer class="flex justify-end items-center">
-    <GradientButton color="blue">返信</GradientButton>
+    <AddResButton {threadId} on:addRes={handleAddRes} />
   </footer>
 
   <div id="bottomElement"></div>
