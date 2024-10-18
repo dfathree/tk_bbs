@@ -11,7 +11,7 @@ $now = time();
 $res_filename = "{$dir}/{$thread_id}/{$now}/{$now}.txt";
 $ret = mkdir("{$dir}/{$thread_id}/{$now}");
 
-file_put_contents($res_filename, implode("\n", ["", "-", $content]));
+file_put_contents($res_filename, implode("\n", ["", "-", str_replace("\n", '\n', $content)]));
 
 http_response_code(201);
 header('Content-Type: application/json');
