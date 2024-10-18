@@ -1,15 +1,6 @@
 <?php
 require_once('../lib/data_file_handler.php');
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
-
-// プリフライトリクエストの場合、ここで終了
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-  exit(0);
-}
-
 $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 
