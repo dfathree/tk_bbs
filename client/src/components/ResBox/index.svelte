@@ -19,7 +19,7 @@
   <div class="px-2 py-1">
     <ResContent content={res.content} />
     {#each res.comments as comment}
-      <CommentContent {comment} />
+      <CommentContent {threadId} resId={res.resId} {comment} on:deleteComment />
     {/each}
     <AddCommentButton {threadId} resId={res.resId} on:addComment />
   </div>

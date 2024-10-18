@@ -50,6 +50,16 @@
     })
   }
 
+  const handleDeleteComment = (event: CustomEvent<{ resId: string; commentId: string }>) => {
+    const { resId, commentId } = event.detail
+    reses = reses.map(res => {
+      if (res.resId === resId) {
+        res.comments = res.comments.filter(comment => comment.commentId !== commentId)
+      }
+      return res
+    })
+  }
+
   onMount(() => {
     const unsubscribe = storePage.subscribe(async $page => {
       threadId = $page.params.threadId
@@ -86,7 +96,7 @@
   <div class="box-container">
     <ParentBox {parent} />
     {#each reses as res}
-      <ResBox {threadId} {res} on:addComment={handleAddComment} />
+      <ResBox {threadId} {res} on:addComment={handleAddComment} on:deleteComment={handleDeleteComment} />
     {/each}
   </div>
 

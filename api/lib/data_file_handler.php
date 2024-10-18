@@ -15,3 +15,10 @@ if (!is_dir($dir)) {
 }
 
 header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
+// プリフライトリクエストの場合、ここで終了
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit(0);
+}
