@@ -3,7 +3,7 @@
 
   const urlRegexp = /(h?ttps?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+)/g
 
-  $: lines = content
+  $: lines = (content ?? '')
     .split('\\n')
     .flatMap(n => n.split(urlRegexp))
     .filter(Boolean)

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { CaretRightSolid } from 'flowbite-svelte-icons'
-  import type { Comment } from '../ResBox/types'
+  import type { Comment } from '../Res/types'
   import DeleteCommentButton from './DeleteCommentButton.svelte'
   import { formatDate } from '$lib/DateFormatter'
 

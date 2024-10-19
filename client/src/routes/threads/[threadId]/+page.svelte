@@ -1,12 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { GradientButton } from 'flowbite-svelte'
   import { page as storePage } from '$app/stores'
   import { PUBLIC_API_SERVER } from '$env/static/public'
-  import ParentBox from '../../../components/ParentBox/index.svelte'
-  import type { Parent } from '../../../components/ParentBox/types'
-  import ResBox from '../../../components/ResBox/index.svelte'
-  import type { Res, Comment } from '../../../components/ResBox/types'
+  import ParentBox from '../../../components/Parent/index.svelte'
+  import type { Parent } from '../../../components/Parent/types'
+  import ResBox from '../../../components/Res/index.svelte'
+  import CreateResButton from '../../../components/Res/CreateResButton.svelte'
+  import type { Res } from '../../../components/Res/types'
+  import type { Comment } from '../../../components/Comment/types'
 
   let threadId = ''
   let total = 0
@@ -40,7 +41,12 @@
     reses = []
   }
 
-  const handleAddComment = (event: CustomEvent<Comment & { resId: string }>) => {
+  const handleCreateRes = () => {
+    page = 0
+    fetchReses()
+  }
+
+  const handleCreateComment = (event: CustomEvent<Comment & { resId: string }>) => {
     const { resId, commentId, content, createdAt } = event.detail
     reses = reses.map(res => {
       if (res.resId === resId) {
@@ -93,27 +99,14 @@
 
 <div>
   <div class="text-2xl mb-2">{parent.title}</div>
-  <div class="box-container">
+  <div class="mr-24">
     <ParentBox {parent} />
     {#each reses as res}
-      <ResBox {threadId} {res} on:addComment={handleAddComment} on:deleteComment={handleDeleteComment} />
+      <ResBox {threadId} {res} on:createComment={handleCreateComment} on:deleteComment={handleDeleteComment} />
     {/each}
   </div>
 
-  <footer class="flex justify-end items-center">
-    <GradientButton color="blue">返信</GradientButton>
-  </footer>
+  <CreateResButton {threadId} on:createRes={handleCreateRes} />
 
   <div id="bottomElement"></div>
 </div>
-
-<style>
-  .box-container {
-    margin-right: 6rem;
-  }
-  footer {
-    position: sticky;
-    bottom: 0;
-    padding: 1rem 0;
-  }
-</style>

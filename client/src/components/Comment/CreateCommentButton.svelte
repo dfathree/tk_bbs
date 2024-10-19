@@ -27,7 +27,7 @@
       }),
     })
     const data = await response.json()
-    dispatch('addComment', data)
+    dispatch('createComment', data)
     openDialog = false
   }
 </script>
@@ -38,7 +38,6 @@
   <div class="pt-4">
     <Input id="default-input" placeholder="コメント" bind:value={comment} />
   </div>
-  {threadId} / {resId}
   <div class="text-right">
     <Button color="blue" class="me-2" on:click={handleSubmit}>送信</Button>
   </div>

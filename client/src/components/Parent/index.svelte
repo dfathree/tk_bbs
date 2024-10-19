@@ -1,5 +1,5 @@
 <script lang="ts">
-  import PulldownMenu from '../PulldownMenu.svelte'
+  import PulldownMenu from './PulldownMenu.svelte'
   import ResContent from '../ResContent.svelte'
   import type { Parent } from './types'
   import { formatDate } from '$lib/DateFormatter'
