@@ -1,27 +1,33 @@
 <script lang="ts">
-  import PulldownMenu from '../PulldownMenu.svelte'
   import ResContent from '../ResContent.svelte'
   import type { Res } from './types'
+  import PulldownMenu from './PulldownMenu.svelte'
   import CommentContent from '../Comment/CommentContent.svelte'
-  import AddCommentButton from '../Comment/AddCommentButton.svelte'
+  import CreateCommentButton from '../Comment/CreateCommentButton.svelte'
+  import Image from '../Image.svelte'
   import { formatDate } from '$lib/DateFormatter'
 
   export let threadId: string
   export let res: Res
+
+  $: resId = res.resId
 </script>
 
 <div class="container">
   <div class="flex items-center bg-slate-50 px-2 py-1">
     <div class="mr-auto">返信 {res.resNum}</div>
     <div class="mr-4">{formatDate(res.createdAt)}</div>
-    <PulldownMenu />
+    <PulldownMenu {threadId} {resId} />
   </div>
   <div class="px-2 py-1">
     <ResContent content={res.content} />
-    {#each res.comments as comment}
-      <CommentContent {threadId} resId={res.resId} {comment} on:deleteComment />
+    {#each res.images as filename}
+      <Image {threadId} {resId} {filename} />
     {/each}
-    <AddCommentButton {threadId} resId={res.resId} on:addComment />
+    {#each res.comments as comment}
+      <CommentContent {threadId} {resId} {comment} on:deleteComment />
+    {/each}
+    <CreateCommentButton {threadId} {resId} on:createComment />
   </div>
 </div>
 

@@ -5,5 +5,6 @@ export type Res = {
   resId: string
   content: string
   createdAt: string
+  images: string[]
   comments: Comment[]
 }

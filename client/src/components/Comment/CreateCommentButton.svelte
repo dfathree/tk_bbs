@@ -27,7 +27,7 @@
       }),
     })
     const data = await response.json()
-    dispatch('addComment', data)
+    dispatch('createComment', data)
     openDialog = false
   }
 </script>
