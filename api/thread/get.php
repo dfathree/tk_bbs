@@ -48,12 +48,7 @@ $content_array = array_map(function ($res_id) use ($dir, $thread_id) {
     'content' => $res_lines[2],
     'createdAt' => date('Y-m-d\TH:i:s+09:00', $res_id),
     'comments' => $comment_array,
-    'images' => array_filter(array(
-      $res_lines[3],
-      $res_lines[4],
-      $res_lines[5],
-      $res_lines[6],
-    )),
+    'images' => array_slice($res_lines, 3),
   );
 }, $sliced_array);
 
