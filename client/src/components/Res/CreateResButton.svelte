@@ -11,6 +11,7 @@
 
   const handleOpenDialog = () => {
     content = ''
+    files = new DataTransfer().files
     openDialog = true
   }
 
@@ -37,7 +38,7 @@
       body: JSON.stringify({
         threadId,
         content,
-        files: baes64Data,
+        images: baes64Data,
       }),
     })
     const data = await response.json()

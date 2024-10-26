@@ -56,6 +56,17 @@
     })
   }
 
+  const handleEditRes = (event: CustomEvent<{ resId: string; content: string; images: string[] }>) => {
+    const { resId, content, images } = event.detail
+    reses = reses.map(res => {
+      if (res.resId === resId) {
+        res.content = content
+        res.images = images
+      }
+      return res
+    })
+  }
+
   const handleDeleteRes = (event: CustomEvent<{ resId: string }>) => {
     const { resId } = event.detail
     reses = reses.filter(res => res.resId !== resId)
@@ -111,6 +122,7 @@
         {threadId}
         {res}
         on:createComment={handleCreateComment}
+        on:editRes={handleEditRes}
         on:deleteRes={handleDeleteRes}
         on:deleteComment={handleDeleteComment}
       />
