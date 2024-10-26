@@ -10,5 +10,5 @@
 <Button class="p-1" size="xs" color="light" pill><BarsOutline /></Button>
 <Dropdown>
   <DropdownItem>編集</DropdownItem>
-  <DeleteResButton {threadId} {resId} />
+  <DeleteResButton {threadId} {resId} on:deleteRes />
 </Dropdown>

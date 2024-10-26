@@ -1,4 +1,7 @@
 export const formatDate = (inputDate: Date | string): string => {
+  if (!inputDate) {
+    return ''
+  }
   const dateObj = new Date(inputDate)
   const year = dateObj.getFullYear()
   const month = `0${dateObj.getMonth() + 1}`.slice(-2)

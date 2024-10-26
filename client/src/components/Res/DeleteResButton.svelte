@@ -19,7 +19,7 @@
         resId,
       }),
     })
-    dispatch('deleteRes', { threadId, resId })
+    dispatch('deleteRes', { resId })
     openDialog = false
   }
 </script>
