@@ -56,6 +56,22 @@
     })
   }
 
+  const handleEditRes = (event: CustomEvent<{ resId: string; content: string; images: string[] }>) => {
+    const { resId, content, images } = event.detail
+    reses = reses.map(res => {
+      if (res.resId === resId) {
+        res.content = content
+        res.images = images
+      }
+      return res
+    })
+  }
+
+  const handleDeleteRes = (event: CustomEvent<{ resId: string }>) => {
+    const { resId } = event.detail
+    reses = reses.filter(res => res.resId !== resId)
+  }
+
   const handleDeleteComment = (event: CustomEvent<{ resId: string; commentId: string }>) => {
     const { resId, commentId } = event.detail
     reses = reses.map(res => {
@@ -102,7 +118,14 @@
   <div class="mr-24">
     <ParentBox {parent} />
     {#each reses as res}
-      <ResBox {threadId} {res} on:createComment={handleCreateComment} on:deleteComment={handleDeleteComment} />
+      <ResBox
+        {threadId}
+        {res}
+        on:createComment={handleCreateComment}
+        on:editRes={handleEditRes}
+        on:deleteRes={handleDeleteRes}
+        on:deleteComment={handleDeleteComment}
+      />
     {/each}
   </div>
 
