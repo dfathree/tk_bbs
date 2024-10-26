@@ -17,16 +17,20 @@
   <div class="flex items-center bg-slate-50 px-2 py-1">
     <div class="mr-auto">返信 {res.resNum}</div>
     <div class="mr-4">{formatDate(res.createdAt)}</div>
-    <PulldownMenu {threadId} {resId} />
+    <PulldownMenu {threadId} {resId} on:editRes on:deleteRes />
   </div>
   <div class="px-2 py-1">
     <ResContent content={res.content} />
-    {#each res.images as filename}
-      <Image {threadId} {resId} {filename} />
-    {/each}
-    {#each res.comments as comment}
-      <CommentContent {threadId} {resId} {comment} on:deleteComment />
-    {/each}
+    <div>
+      {#each res.images as filename}
+        <Image {threadId} {resId} {filename} />
+      {/each}
+    </div>
+    <div>
+      {#each res.comments as comment}
+        <CommentContent {threadId} {resId} {comment} on:deleteComment />
+      {/each}
+    </div>
     <CreateCommentButton {threadId} {resId} on:createComment />
   </div>
 </div>

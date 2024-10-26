@@ -6,29 +6,29 @@ $data = json_decode($json, true);
 
 $thread_id = $data['threadId'];
 $content = $data['content'];
-$files = $data['files'];
+$images = $data['images'];
 
 $now = time();
 $res_filename = "{$dir}/{$thread_id}/{$now}/{$now}.txt";
-$ret = mkdir("{$dir}/{$thread_id}/{$now}");
+mkdir("{$dir}/{$thread_id}/{$now}");
 
-$res_contents = array("", "-", str_replace("\n", '\n', $content));
+$res_lines = array("", "-", str_replace("\n", '\n', $content));
 
-foreach ($files as $file) {
-  if (preg_match("/^data:image\\/(.*);base64,(.*)$/", $file, $matches)) {
+foreach ($images as $image) {
+  if (preg_match("/^data:image\\/(.*);base64,(.*)$/", $image, $matches)) {
     $image_filename = 'image' .  uniqid() . ".{$matches[1]}";
     file_put_contents("{$dir}/{$thread_id}/{$now}/{$image_filename}", base64_decode($matches[2]));
-    array_push($res_contents, $image_filename);
+    array_push($res_lines, $image_filename);
   }
 }
 
-file_put_contents($res_filename, implode("\n", $res_contents));
+file_put_contents($res_filename, implode("\n", $res_lines));
 
 http_response_code(201);
 header('Content-Type: application/json');
 print(json_encode(array(
   'threadId' => $thread_id,
   'resId' => $now,
-  'content' => $res_contents[2],
-  'files' => array_slice($res_contents, 3),
+  'content' => $res_lines[2],
+  'images' => array_slice($res_lines, 3),
 )));
