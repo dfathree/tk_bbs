@@ -6,10 +6,11 @@
 
   export let threadId: string
   export let resId: string = ''
+  let openDropdown = false
 </script>
 
 <Button class="p-1" size="xs" color="light" pill><BarsOutline /></Button>
-<Dropdown>
-  <EditResButton {threadId} {resId} on:editRes />
-  <DeleteResButton {threadId} {resId} on:deleteRes />
+<Dropdown bind:open={openDropdown}>
+  <EditResButton {threadId} {resId} on:editRes on:close={() => (openDropdown = false)} />
+  <DeleteResButton {threadId} {resId} on:deleteRes on:close={() => (openDropdown = false)} />
 </Dropdown>
