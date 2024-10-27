@@ -81,7 +81,7 @@
 
 <DropdownItem on:click={handleOpenDialog}>編集</DropdownItem>
 
-<Modal bind:open={openDialog} size="lg" outsideclose>
+<Modal bind:open={openDialog} size="lg" outsideclose on:close={() => dispatch('close')}>
   <div class="pt-4">
     <Textarea id="default-input" rows={16} bind:value={content} />
   </div>
