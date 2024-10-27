@@ -13,4 +13,5 @@ print(json_encode(array(
   'resId' => $res_id,
   'content' => $res_lines[2],
   'images' => array_slice($res_lines, 3),
+  'createdAt' => date('Y-m-d\TH:i:s+09:00', $res_id),
 )));

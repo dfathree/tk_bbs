@@ -44,6 +44,7 @@ $content_array = array_map(function ($res_id) use ($dir, $thread_id) {
   }
 
   return array(
+    'threadId' => $thread_id,
     'resId' => $res_id,
     'content' => $res_lines[2],
     'createdAt' => date('Y-m-d\TH:i:s+09:00', $res_id),
