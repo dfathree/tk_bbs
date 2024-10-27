@@ -1,6 +1,6 @@
 <script>
-  import Header from './Header.svelte'
-  import Sidebar from './Sidebar.svelte'
+  import Header from '../components/Header.svelte'
+  import Sidebar from '../components/Sidebar.svelte'
   import '../app.css'
 </script>
 
