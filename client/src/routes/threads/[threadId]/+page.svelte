@@ -56,6 +56,12 @@
     })
   }
 
+  const handleEditParent = (event: CustomEvent<Omit<Parent, 'resNum' | 'comments'>>) => {
+    const { title, content } = event.detail
+    parent.title = title
+    parent.content = content
+  }
+
   const handleEditRes = (event: CustomEvent<{ resId: string; content: string; images: string[] }>) => {
     const { resId, content, images } = event.detail
     reses = reses.map(res => {
@@ -116,7 +122,7 @@
 <div>
   <div class="text-2xl mb-2">{parent.title}</div>
   <div class="mr-24">
-    <ParentBox {parent} />
+    <ParentBox {parent} on:editParent={handleEditParent} />
     {#each reses as res}
       <ResBox
         {threadId}

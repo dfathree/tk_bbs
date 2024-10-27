@@ -1,20 +1,24 @@
 <script lang="ts">
-  import PulldownMenu from './PulldownMenu.svelte'
+  import ParentPulldownMenu from './ParentPulldownMenu.svelte'
   import ResContent from '../ResContent.svelte'
   import type { Parent } from './types'
   import { formatDate } from '$lib/DateFormatter'
 
   export let parent: Parent
+
+  $: threadId = parent.threadId
+  $: content = parent.content
+  $: createdAt = parent.createdAt
 </script>
 
 <div class="container">
   <div class="flex items-center bg-slate-50 px-2 py-1">
     <div class="mr-auto">トピック</div>
-    <div class="mr-4">{formatDate(parent.createdAt)}</div>
-    <PulldownMenu />
+    <div class="mr-4">{formatDate(createdAt)}</div>
+    <ParentPulldownMenu {threadId} on:editParent on:deleteParent />
   </div>
   <div class="px-2 py-1">
-    <ResContent content={parent.content} />
+    <ResContent {content} />
   </div>
 </div>
 

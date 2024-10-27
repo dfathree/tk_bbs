@@ -1,7 +1,7 @@
 <script lang="ts">
   import ResContent from '../ResContent.svelte'
   import type { Res } from './types'
-  import PulldownMenu from './PulldownMenu.svelte'
+  import ResPulldownMenu from './ResPulldownMenu.svelte'
   import CommentContent from '../Comment/CommentContent.svelte'
   import CreateCommentButton from '../Comment/CreateCommentButton.svelte'
   import Image from '../Image.svelte'
@@ -17,7 +17,7 @@
   <div class="flex items-center bg-slate-50 px-2 py-1">
     <div class="mr-auto">返信 {res.resNum}</div>
     <div class="mr-4">{formatDate(res.createdAt)}</div>
-    <PulldownMenu {threadId} {resId} on:editRes on:deleteRes />
+    <ResPulldownMenu {threadId} {resId} on:editRes on:deleteRes />
   </div>
   <div class="px-2 py-1">
     <ResContent content={res.content} />
