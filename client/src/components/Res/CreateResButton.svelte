@@ -47,7 +47,7 @@
   }
 </script>
 
-<GradientButton class="fixed top-28 right-8" color="blue" on:click={handleOpenDialog}>返信</GradientButton>
+<GradientButton color="blue" on:click={handleOpenDialog}>返信</GradientButton>
 
 <Modal bind:open={openDialog} size="lg" outsideclose>
   <div class="pt-4">

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte'
   import { Button, Dropdown, DropdownItem } from 'flowbite-svelte'
   import { BarsOutline } from 'flowbite-svelte-icons'
   import EditParentButton from './EditParentButton.svelte'

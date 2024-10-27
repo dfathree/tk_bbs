@@ -5,7 +5,6 @@
   import ParentBox from '../../../components/Parent/index.svelte'
   import type { Parent } from '../../../components/Parent/types'
   import ResBox from '../../../components/Res/index.svelte'
-  import CreateResButton from '../../../components/Res/CreateResButton.svelte'
   import type { Res } from '../../../components/Res/types'
   import type { Comment } from '../../../components/Comment/types'
 
@@ -121,7 +120,7 @@
 
 <div>
   <div class="text-2xl mb-2">{parent.title}</div>
-  <div class="mr-24">
+  <div class="mr-4">
     <ParentBox {parent} on:editParent={handleEditParent} />
     {#each reses as res}
       <ResBox
@@ -134,8 +133,6 @@
       />
     {/each}
   </div>
-
-  <CreateResButton {threadId} on:createRes={handleCreateRes} />
 
   <div id="bottomElement"></div>
 </div>
