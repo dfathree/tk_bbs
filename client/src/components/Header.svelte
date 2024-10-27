@@ -1,7 +1,7 @@
 <script>
   import { GradientButton } from 'flowbite-svelte'
   import { page } from '$app/stores' // $page is a store
-  import CreateResButton from '../components/Res/CreateResButton.svelte'
+  import CreateResButton from './Res/CreateResButton.svelte'
 
   const handleOpenDialog = () => {
     console.log('スレ立て')
