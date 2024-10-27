@@ -18,5 +18,6 @@ header('Content-Type: application/json');
 print(json_encode(array(
   'threadId' => $now,
   'title' => $title,
-  'content' => $content
+  'content' => $content,
+  'createdAt' => date('Y-m-d\TH:i:s+09:00', $now),
 )));
