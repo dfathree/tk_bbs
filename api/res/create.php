@@ -28,7 +28,7 @@ http_response_code(201);
 header('Content-Type: application/json');
 print(json_encode(array(
   'threadId' => $thread_id,
-  'resId' => $now,
+  'resId' => strval($now),
   'content' => $res_lines[2],
   'images' => array_slice($res_lines, 3),
 )));
