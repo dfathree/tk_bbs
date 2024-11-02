@@ -1,10 +1,10 @@
 <script lang="ts">
   import ParentPulldownMenu from './ParentPulldownMenu.svelte'
   import ResContent from '../ResContent.svelte'
-  import type { Parent } from './types'
   import { formatDate } from '$lib/DateFormatter'
+  import type { ParentType } from '../../store/threadStore'
 
-  export let parent: Parent
+  export let parent: ParentType
 
   $: threadId = parent.threadId
   $: content = parent.content

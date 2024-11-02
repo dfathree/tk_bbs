@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte'
   import { Button, DropdownItem, Fileupload, Textarea, Modal } from 'flowbite-svelte'
   import { CloseCircleOutline } from 'flowbite-svelte-icons'
-  import type { Res } from './types'
+  import type { ResType } from '../../store/threadStore'
   import Image from '../Image.svelte'
   import { PUBLIC_API_SERVER } from '$env/static/public'
 
@@ -74,7 +74,7 @@
         images: baes64Data,
       }),
     })
-    const data: Omit<Res, 'resNum' | 'comments'> = await response.json()
+    const data: Omit<ResType, 'resNum' | 'comments'> = await response.json()
     dispatch('editRes', data)
     openDialog = false
   }

@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { Button, DropdownItem, Input, Textarea, Modal } from 'flowbite-svelte'
-  import type { Parent } from './types'
   import { PUBLIC_API_SERVER } from '$env/static/public'
+  import type { ParentType } from '../../store/threadStore'
 
   export let threadId: string
   let openDialog = false
@@ -13,7 +13,7 @@
 
   const handleOpenDialog = async () => {
     const response = await fetch(`${PUBLIC_API_SERVER}/api/thread/get.php?threadId=${threadId}&page=1&perPage=0`)
-    const { parent }: { parent: Parent } = await response.json()
+    const { parent }: { parent: ParentType } = await response.json()
     title = parent.title
     content = parent.content.replace(/\\n/g, '\n')
     openDialog = true
@@ -31,7 +31,7 @@
         content,
       }),
     })
-    const data: Parent = await response.json()
+    const data: ParentType = await response.json()
     dispatch('editParent', data)
     openDialog = false
   }
