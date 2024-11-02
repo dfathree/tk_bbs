@@ -67,5 +67,5 @@ print(json_encode(array(
     'content' => $parent_res[2],
     'createdAt' => date('Y-m-d\TH:i:s+09:00', intval($thread_id))
   ),
-  'res' => $content_array,
+  'reses' => $content_array,
 )));
