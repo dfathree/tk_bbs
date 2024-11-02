@@ -1,6 +1,6 @@
 <script lang="ts">
   import ResContent from '../ResContent.svelte'
-  import type { Res } from './types'
+  import type { ResType } from '../../store/threadStore'
   import ResPulldownMenu from './ResPulldownMenu.svelte'
   import CommentContent from '../Comment/CommentContent.svelte'
   import CreateCommentButton from '../Comment/CreateCommentButton.svelte'
@@ -8,7 +8,7 @@
   import { formatDate } from '$lib/DateFormatter'
 
   export let threadId: string
-  export let res: Res
+  export let res: ResType
 
   $: resId = res.resId
 </script>
@@ -17,7 +17,7 @@
   <div class="flex items-center bg-slate-50 px-2 py-1">
     <div class="mr-auto">返信 {res.resNum}</div>
     <div class="mr-4">{formatDate(res.createdAt)}</div>
-    <ResPulldownMenu {threadId} {resId} on:editRes on:deleteRes />
+    <ResPulldownMenu {threadId} {resId} />
   </div>
   <div class="px-2 py-1">
     <ResContent content={res.content} />
@@ -28,10 +28,10 @@
     </div>
     <div>
       {#each res.comments as comment}
-        <CommentContent {threadId} {resId} {comment} on:deleteComment />
+        <CommentContent {threadId} {resId} {comment} />
       {/each}
     </div>
-    <CreateCommentButton {threadId} {resId} on:createComment />
+    <CreateCommentButton {threadId} {resId} />
   </div>
 </div>
 

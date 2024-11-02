@@ -30,5 +30,5 @@
     {/if}
   {/each}
   <span class="ms-2">{formatDate(comment.createdAt)}</span>
-  <DeleteCommentButton {threadId} {resId} commentId={comment.commentId} on:deleteComment />
+  <DeleteCommentButton {threadId} {resId} commentId={comment.commentId} />
 </div>

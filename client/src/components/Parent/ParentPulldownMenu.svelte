@@ -9,6 +9,6 @@
 
 <Button class="p-1" size="xs" color="light" pill><BarsOutline /></Button>
 <Dropdown bind:open={openDropdown}>
-  <EditParentButton {threadId} on:editParent on:close={() => (openDropdown = false)}>編集</EditParentButton>
+  <EditParentButton {threadId} on:close={() => (openDropdown = false)}>編集</EditParentButton>
   <DropdownItem>削除</DropdownItem>
 </Dropdown>

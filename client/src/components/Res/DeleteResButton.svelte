@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte'
   import { Button, DropdownItem, Modal } from 'flowbite-svelte'
   import { PUBLIC_API_SERVER } from '$env/static/public'
+  import { threadStore } from '../../store/threadStore'
 
   export let threadId: string
   export let resId: string
@@ -19,7 +20,7 @@
         resId,
       }),
     })
-    dispatch('deleteRes', { resId })
+    threadStore.updateReses(reses => reses.filter(res => res.resId !== resId))
     openDialog = false
   }
 </script>

@@ -2,10 +2,10 @@
   import { onMount } from 'svelte'
   import { page as storePage } from '$app/stores'
   import { PUBLIC_API_SERVER } from '$env/static/public'
+  import { threadStore } from '../../../store/threadStore'
   import ParentBox from '../../../components/Parent/index.svelte'
   import ResBox from '../../../components/Res/index.svelte'
-  import { threadStore } from '../../../store/threadStore'
-  import type { CommentType, ParentType, ResType, ThreadType } from '../../../store/threadStore'
+  import type { ResType, ThreadType } from '../../../store/threadStore'
 
   let threadId = ''
   const fetchReses = async () => {
@@ -23,54 +23,6 @@
         resNum: data.total - (data.page - 1) * data.perPage - index,
       })),
     }))
-  }
-
-  const handleCreateComment = (event: CustomEvent<CommentType & { resId: string }>) => {
-    const { resId, commentId, content, createdAt } = event.detail
-    threadStore.updateReses(reses =>
-      reses.map(res => {
-        if (res.resId === resId) {
-          res.comments.push({ commentId, content, createdAt })
-        }
-        return res
-      }),
-    )
-  }
-
-  const handleEditParent = (event: CustomEvent<Omit<ParentType, 'resNum' | 'comments'>>) => {
-    const { title, content } = event.detail
-    $threadStore.parent.title = title
-    $threadStore.parent.content = content
-  }
-
-  const handleEditRes = (event: CustomEvent<{ resId: string; content: string; images: string[] }>) => {
-    const { resId, content, images } = event.detail
-    threadStore.updateReses(reses =>
-      reses.map(res => {
-        if (res.resId === resId) {
-          res.content = content
-          res.images = images
-        }
-        return res
-      }),
-    )
-  }
-
-  const handleDeleteRes = (event: CustomEvent<{ resId: string }>) => {
-    const { resId } = event.detail
-    threadStore.updateReses(reses => reses.filter(res => res.resId !== resId))
-  }
-
-  const handleDeleteComment = (event: CustomEvent<{ resId: string; commentId: string }>) => {
-    const { resId, commentId } = event.detail
-    threadStore.updateReses(reses =>
-      reses.map(res => {
-        if (res.resId === resId) {
-          res.comments = res.comments.filter(comment => comment.commentId !== commentId)
-        }
-        return res
-      }),
-    )
   }
 
   onMount(() => {
@@ -106,16 +58,9 @@
 <div>
   <div class="text-2xl mb-2">{$threadStore.parent.title}</div>
   <div class="mr-4">
-    <ParentBox parent={$threadStore.parent} on:editParent={handleEditParent} />
+    <ParentBox parent={$threadStore.parent} />
     {#each $threadStore.reses as res}
-      <ResBox
-        {threadId}
-        {res}
-        on:createComment={handleCreateComment}
-        on:editRes={handleEditRes}
-        on:deleteRes={handleDeleteRes}
-        on:deleteComment={handleDeleteComment}
-      />
+      <ResBox {threadId} {res} />
     {/each}
   </div>
 

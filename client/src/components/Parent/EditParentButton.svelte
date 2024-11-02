@@ -2,7 +2,8 @@
   import { createEventDispatcher } from 'svelte'
   import { Button, DropdownItem, Input, Textarea, Modal } from 'flowbite-svelte'
   import { PUBLIC_API_SERVER } from '$env/static/public'
-  import type { ParentType } from '../../store/threadStore'
+  import { boardStore } from '../../store/boardStore'
+  import { threadStore, type ParentType } from '../../store/threadStore'
 
   export let threadId: string
   let openDialog = false
@@ -32,7 +33,17 @@
       }),
     })
     const data: ParentType = await response.json()
-    dispatch('editParent', data)
+    threadStore.update(value => ({
+      ...value,
+      parent: {
+        ...value.parent,
+        title: data.title,
+        content: data.content,
+      },
+    }))
+    boardStore.update(value =>
+      value.map(thread => (thread.threadId === threadId ? { ...thread, title: data.title } : thread)),
+    )
     openDialog = false
   }
 </script>

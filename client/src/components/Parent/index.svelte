@@ -15,7 +15,7 @@
   <div class="flex items-center bg-slate-50 px-2 py-1">
     <div class="mr-auto">トピック</div>
     <div class="mr-4">{formatDate(createdAt)}</div>
-    <ParentPulldownMenu {threadId} on:editParent on:deleteParent />
+    <ParentPulldownMenu {threadId} on:deleteParent />
   </div>
   <div class="px-2 py-1">
     <ResContent {content} />
