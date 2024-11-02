@@ -9,25 +9,26 @@
 
   let threadId = ''
   const fetchReses = async () => {
-    if ($threadStore.total < $threadStore.page * $threadStore.perPage) {
-      return
-    }
     const response = await fetch(
       `${PUBLIC_API_SERVER}/api/thread/get.php?threadId=${threadId}&page=${$threadStore.page + 1}`,
     )
     const data: ThreadType = await response.json()
-    threadStore.update(() => ({
+    threadStore.update(value => ({
       ...data,
-      reses: data.reses.map((res: ResType, index: number) => ({
-        ...res,
-        resNum: data.total - (data.page - 1) * data.perPage - index,
-      })),
+      reses: [
+        ...value.reses,
+        ...data.reses.map((res: ResType, index: number) => ({
+          ...res,
+          resNum: data.total - (data.page - 1) * data.perPage - index,
+        })),
+      ],
     }))
   }
 
   onMount(() => {
     const unsubscribe = storePage.subscribe(async $page => {
       threadId = $page.params.threadId
+      threadStore.clear()
       fetchReses()
     })
 
@@ -35,7 +36,7 @@
     const observer = new IntersectionObserver(
       entries => {
         const [entry] = entries
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && $threadStore.total >= $threadStore.page * $threadStore.perPage) {
           fetchReses()
         }
       },

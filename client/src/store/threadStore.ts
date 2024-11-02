@@ -31,7 +31,7 @@ export type ThreadType = {
   reses: ResType[]
 }
 
-const { subscribe, set, update } = writable<ThreadType>({
+const initialValue: ThreadType = {
   total: 0,
   page: 0,
   perPage: 10,
@@ -42,7 +42,9 @@ const { subscribe, set, update } = writable<ThreadType>({
     createdAt: '',
   },
   reses: [],
-})
+}
+
+const { subscribe, set, update } = writable<ThreadType>(initialValue)
 
 export const threadStore = {
   subscribe,
@@ -50,4 +52,5 @@ export const threadStore = {
   update,
   updateReses: (callback: (currentReses: ResType[]) => ResType[]) =>
     update(state => ({ ...state, reses: callback(state.reses) })),
+  clear: () => update(() => initialValue),
 }
