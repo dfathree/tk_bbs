@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte'
   import { Button, Fileupload, GradientButton, Textarea, Modal } from 'flowbite-svelte'
   import { PUBLIC_API_SERVER } from '$env/static/public'
+  import { threadStore, type ResType } from '../../store/threadStore'
 
   export let threadId: string
   let openDialog = false
@@ -41,8 +42,15 @@
         images: baes64Data,
       }),
     })
-    const data = await response.json()
-    dispatch('createRes', data)
+    const data: Omit<ResType, 'resNum' | 'comments'> = await response.json()
+    threadStore.updateReses(reses => [
+      {
+        ...data,
+        resNum: reses.length + 1,
+        comments: [],
+      },
+      ...reses,
+    ])
     openDialog = false
   }
 </script>

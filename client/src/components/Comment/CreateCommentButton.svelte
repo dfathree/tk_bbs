@@ -1,13 +1,14 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte'
   import { Button, Input, Modal } from 'flowbite-svelte'
   import { PUBLIC_API_SERVER } from '$env/static/public'
+  import { threadStore, type CommentType } from '../../store/threadStore'
+
+  type ResponseType = CommentType & { resId: string; threadId: string }
 
   export let threadId: string
   export let resId: string
   let openDialog = false
   let comment = ''
-  const dispatch = createEventDispatcher()
 
   const handleOpenDialog = () => {
     comment = ''
@@ -26,8 +27,15 @@
         content: comment,
       }),
     })
-    const data = await response.json()
-    dispatch('createComment', data)
+    const { commentId, content, createdAt }: ResponseType = await response.json()
+    threadStore.updateReses(reses =>
+      reses.map(res => {
+        if (res.resId === resId) {
+          res.comments.push({ commentId, content, createdAt })
+        }
+        return res
+      }),
+    )
     openDialog = false
   }
 </script>

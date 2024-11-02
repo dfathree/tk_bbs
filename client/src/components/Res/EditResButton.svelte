@@ -2,9 +2,9 @@
   import { createEventDispatcher } from 'svelte'
   import { Button, DropdownItem, Fileupload, Textarea, Modal } from 'flowbite-svelte'
   import { CloseCircleOutline } from 'flowbite-svelte-icons'
-  import type { Res } from './types'
-  import Image from '../Image.svelte'
   import { PUBLIC_API_SERVER } from '$env/static/public'
+  import { threadStore, type ResType } from '../../store/threadStore'
+  import Image from '../Image.svelte'
 
   export let threadId: string
   export let resId: string
@@ -74,8 +74,16 @@
         images: baes64Data,
       }),
     })
-    const data: Omit<Res, 'resNum' | 'comments'> = await response.json()
-    dispatch('editRes', data)
+    const data: Omit<ResType, 'resNum' | 'comments'> = await response.json()
+    threadStore.updateReses(reses =>
+      reses.map(res => {
+        if (res.resId === resId) {
+          res.content = data.content
+          res.images = data.images
+        }
+        return res
+      }),
+    )
     openDialog = false
   }
 </script>

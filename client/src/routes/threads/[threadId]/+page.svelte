@@ -1,96 +1,32 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { page as storePage } from '$app/stores'
+  import { page } from '$app/stores'
   import { PUBLIC_API_SERVER } from '$env/static/public'
+  import { threadStore } from '../../../store/threadStore'
   import ParentBox from '../../../components/Parent/index.svelte'
-  import type { Parent } from '../../../components/Parent/types'
   import ResBox from '../../../components/Res/index.svelte'
-  import type { Res } from '../../../components/Res/types'
-  import type { Comment } from '../../../components/Comment/types'
-
-  let threadId = ''
-  let total = 0
-  let page = 0
-  let perPage = 10
-  let parent: Parent = { threadId: '', title: '', content: '', createdAt: '' }
-  let reses: Res[] = []
+  import type { ResType, ThreadType } from '../../../store/threadStore'
 
   const fetchReses = async () => {
-    if (total < page * perPage) {
-      return
-    }
-    page += 1
-    const response = await fetch(`${PUBLIC_API_SERVER}/api/thread/get.php?threadId=${threadId}&page=${page}`)
-    const data = await response.json()
-    total = data.total
-    page = data.page
-    perPage = data.perPage
-    parent = data.parent
-    data.res.forEach((res: Res, index: number) => {
-      const resNum = (page - 1) * perPage + index
-      reses[resNum] = { ...res, resNum: total - resNum }
-    })
-  }
-
-  const init = () => {
-    total = 0
-    page = 0
-    perPage = 10
-    parent = { threadId: '', title: '', content: '', createdAt: '' }
-    reses = []
-  }
-
-  const handleCreateRes = () => {
-    page = 0
-    fetchReses()
-  }
-
-  const handleCreateComment = (event: CustomEvent<Comment & { resId: string }>) => {
-    const { resId, commentId, content, createdAt } = event.detail
-    reses = reses.map(res => {
-      if (res.resId === resId) {
-        res.comments.push({ commentId, content, createdAt })
-      }
-      return res
-    })
-  }
-
-  const handleEditParent = (event: CustomEvent<Omit<Parent, 'resNum' | 'comments'>>) => {
-    const { title, content } = event.detail
-    parent.title = title
-    parent.content = content
-  }
-
-  const handleEditRes = (event: CustomEvent<{ resId: string; content: string; images: string[] }>) => {
-    const { resId, content, images } = event.detail
-    reses = reses.map(res => {
-      if (res.resId === resId) {
-        res.content = content
-        res.images = images
-      }
-      return res
-    })
-  }
-
-  const handleDeleteRes = (event: CustomEvent<{ resId: string }>) => {
-    const { resId } = event.detail
-    reses = reses.filter(res => res.resId !== resId)
-  }
-
-  const handleDeleteComment = (event: CustomEvent<{ resId: string; commentId: string }>) => {
-    const { resId, commentId } = event.detail
-    reses = reses.map(res => {
-      if (res.resId === resId) {
-        res.comments = res.comments.filter(comment => comment.commentId !== commentId)
-      }
-      return res
-    })
+    const response = await fetch(
+      `${PUBLIC_API_SERVER}/api/thread/get.php?threadId=${threadId}&page=${$threadStore.page + 1}`,
+    )
+    const data: ThreadType = await response.json()
+    threadStore.update(value => ({
+      ...data,
+      reses: [
+        ...value.reses,
+        ...data.reses.map((res: ResType, index: number) => ({
+          ...res,
+          resNum: data.total - (data.page - 1) * data.perPage - index,
+        })),
+      ],
+    }))
   }
 
   onMount(() => {
-    const unsubscribe = storePage.subscribe(async $page => {
-      threadId = $page.params.threadId
-      init()
+    const unsubscribe = page.subscribe(async () => {
+      threadStore.clear()
       fetchReses()
     })
 
@@ -98,7 +34,7 @@
     const observer = new IntersectionObserver(
       entries => {
         const [entry] = entries
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && $threadStore.total >= $threadStore.page * $threadStore.perPage) {
           fetchReses()
         }
       },
@@ -116,23 +52,14 @@
       unsubscribe()
     }
   })
+
+  $: threadId = $page.url.pathname.match(/^\/threads\/(\d+)/)?.[1]!
 </script>
 
-<div>
-  <div class="text-2xl mb-2">{parent.title}</div>
-  <div class="mr-4">
-    <ParentBox {parent} on:editParent={handleEditParent} />
-    {#each reses as res}
-      <ResBox
-        {threadId}
-        {res}
-        on:createComment={handleCreateComment}
-        on:editRes={handleEditRes}
-        on:deleteRes={handleDeleteRes}
-        on:deleteComment={handleDeleteComment}
-      />
-    {/each}
-  </div>
-
-  <div id="bottomElement"></div>
+<div class="mr-4">
+  <ParentBox parent={$threadStore.parent} />
+  {#each $threadStore.reses as res}
+    <ResBox {threadId} {res} />
+  {/each}
 </div>
+<div id="bottomElement"></div>

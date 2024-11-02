@@ -1,13 +1,12 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte'
   import { Button, Modal } from 'flowbite-svelte'
   import { PUBLIC_API_SERVER } from '$env/static/public'
+  import { threadStore } from '../../store/threadStore'
 
   export let threadId: string
   export let resId: string
   export let commentId: string
   let openDialog = false
-  const dispatch = createEventDispatcher()
 
   const handleSubmit = async () => {
     await fetch(`${PUBLIC_API_SERVER}/api/comment/delete.php`, {
@@ -21,7 +20,14 @@
         commentId,
       }),
     })
-    dispatch('deleteComment', { threadId, resId, commentId })
+    threadStore.updateReses(reses =>
+      reses.map(res => {
+        if (res.resId === resId) {
+          res.comments = res.comments.filter(comment => comment.commentId !== commentId)
+        }
+        return res
+      }),
+    )
     openDialog = false
   }
 </script>

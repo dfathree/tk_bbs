@@ -11,6 +11,6 @@
 
 <Button class="p-1" size="xs" color="light" pill><BarsOutline /></Button>
 <Dropdown bind:open={openDropdown}>
-  <EditResButton {threadId} {resId} on:editRes on:close={() => (openDropdown = false)} />
-  <DeleteResButton {threadId} {resId} on:deleteRes on:close={() => (openDropdown = false)} />
+  <EditResButton {threadId} {resId} on:close={() => (openDropdown = false)} />
+  <DeleteResButton {threadId} {resId} on:close={() => (openDropdown = false)} />
 </Dropdown>

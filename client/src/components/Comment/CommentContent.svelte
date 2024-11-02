@@ -1,12 +1,12 @@
 <script lang="ts">
   import { CaretRightSolid } from 'flowbite-svelte-icons'
-  import type { Comment } from './types'
-  import DeleteCommentButton from './DeleteCommentButton.svelte'
   import { formatDate } from '$lib/DateFormatter'
+  import type { CommentType } from '../../store/threadStore'
+  import DeleteCommentButton from './DeleteCommentButton.svelte'
 
   export let threadId: string
   export let resId: string
-  export let comment: Comment
+  export let comment: CommentType
 
   const urlRegexp = /(h?ttps?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+)/g
 
@@ -30,5 +30,5 @@
     {/if}
   {/each}
   <span class="ms-2">{formatDate(comment.createdAt)}</span>
-  <DeleteCommentButton {threadId} {resId} commentId={comment.commentId} on:deleteComment />
+  <DeleteCommentButton {threadId} {resId} commentId={comment.commentId} />
 </div>
