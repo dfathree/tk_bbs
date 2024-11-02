@@ -1,24 +1,16 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { page as storePage } from '$app/stores'
+  import { page } from '$app/stores'
   import { PUBLIC_API_SERVER } from '$env/static/public'
   import { boardStore, type BoardType } from '../store/boardStore'
-
-  let threadId = ''
 
   onMount(async () => {
     const response = await fetch(`${PUBLIC_API_SERVER}/api/board/get.php`)
     const { threads }: { threads: BoardType[] } = await response.json()
     boardStore.update(() => threads)
   })
-  onMount(() => {
-    const unsubscribe = storePage.subscribe(async $page => {
-      threadId = $page.params.threadId
-    })
-    return () => {
-      unsubscribe()
-    }
-  })
+
+  $: threadId = $page.url.pathname.match(/^\/threads\/(\d+)/)?.[1]
 </script>
 
 <div>
