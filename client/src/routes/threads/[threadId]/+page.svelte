@@ -7,6 +7,8 @@
   import ResBox from '../../../components/Res/index.svelte'
   import type { ResType, ThreadType } from '../../../store/threadStore'
 
+  let threadId = ''
+
   const fetchReses = async () => {
     const response = await fetch(
       `${PUBLIC_API_SERVER}/api/thread/get.php?threadId=${threadId}&page=${$threadStore.page + 1}`,
@@ -25,7 +27,8 @@
   }
 
   onMount(() => {
-    const unsubscribe = page.subscribe(async () => {
+    const unsubscribe = page.subscribe(async page => {
+      threadId = page.url.pathname.match(/^\/threads\/(\d+)/)?.[1]!
       threadStore.clear()
       fetchReses()
     })
@@ -52,8 +55,6 @@
       unsubscribe()
     }
   })
-
-  $: threadId = $page.url.pathname.match(/^\/threads\/(\d+)/)?.[1]!
 </script>
 
 <div class="mr-4">

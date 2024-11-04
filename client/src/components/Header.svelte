@@ -1,22 +1,19 @@
 <script>
-  import { GradientButton } from 'flowbite-svelte'
   import { page } from '$app/stores' // $page is a store
   import { threadStore } from '../store/threadStore'
+  import CreateParentButton from './Thread/CreateThreadButton.svelte'
   import CreateResButton from './Res/CreateResButton.svelte'
 
-  const handleOpenDialog = () => {
-    console.log('スレ立て')
-  }
   $: threadId = $page.url.pathname.match(/^\/threads\/(\d+)/)?.[1]
   $: title = $threadStore.parent.title
 </script>
 
-<header class="sticky top-0 flex items-center justify-between mr-8 ml-4 py-2 bg-white">
+<header class="sticky top-0 grid grid-cols-3 items-center mr-8 ml-4 py-2 bg-white">
   <div class="flex items-center">
-    <GradientButton class="" color="blue" on:click={handleOpenDialog}>スレ立て</GradientButton>
+    <CreateParentButton />
   </div>
-  <h1 class="text-2xl">{title}</h1>
-  <div>
+  <h1 class="text-2xl text-center">{title}</h1>
+  <div class="text-right">
     {#if threadId}
       <CreateResButton {threadId} />
     {/if}
