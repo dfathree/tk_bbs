@@ -8,6 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 nkf = "^1.0.4"
+pyyaml = "^6.0.2"
+pytz = "^2024.2"
 
 
 [build-system]
