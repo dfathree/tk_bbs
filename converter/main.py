@@ -1,7 +1,7 @@
 # dat ディレクトリ以下のファイルを読み込んで、ファイル名を表示する
 import os
 import glob
-import yaml
+import json
 import nkf
 from datetime import datetime
 import pytz
@@ -79,11 +79,5 @@ for thread_path in threads:
                 res_data["comments"].append(comment)
 
         # yaml ファイル名で output を保存する
-        with open(f"dat/{thread}/{res_dir}.yaml", "w") as f:
-            yaml.safe_dump(
-                res_data,
-                f,
-                default_flow_style=False,
-                allow_unicode=True,
-                sort_keys=False,
-            )
+        with open(f"dat/{thread}/{res_dir}.json", "w") as f:
+            json.dump(res_data, f, ensure_ascii=False, indent=2)
